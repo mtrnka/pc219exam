@@ -1,0 +1,140 @@
+---
+title: "PC219 Crosslinking MS Exam Question"
+author: "Mike Trnka"
+date: "`r format(Sys.time(), '%b %d %Y')`"
+output:
+   html_document:
+      toc: TRUE
+editor_options: 
+  markdown: 
+    wrap: 72
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(tidyverse)
+library(flextable)
+
+pep.assignments <- tibble(
+   assignment = c("#1","#2","#3","#4"),
+   url = c(
+   "https://msviewer.ucsf.edu/cgi-bin/mssearch.cgi?search_name=msproduct&output_type=HTML&report_title=MS-Product&version=6.5.0%20Basic&data_source=Data%20From%20File&data_filename=%2Fvar%2Flib%2Fprospector%2Fweb%2Ftemp%2FApr_11_2024%2Fzzqhcjm7xa%2FDSSOstar_rRibo%2FZ20200519-53_FTMSms2hcd.mgf&use_instrument_ion_types=1&msms_min_precursor_mass=0&instrument_name=ESI-Q-high-res&display_graph=1&msms_parent_mass_tolerance=200&msms_parent_mass_tolerance_units=ppm&fragment_masses_tolerance=30&fragment_masses_tolerance_units=ppm&msms_pk_filter=Max%20MSMS%20Pks&msms_max_peaks=100&scan_number=19752&max_charge=3&msms_precursor_charge=3&sequence=AVDIPHMDIEALK%28%2bDSSO%2a%29K&s=1&sequence2=K%28%2bDSSO%2a%29PRHQEGEIFDTEK&s2=1&count_pos_z=Count%20Basic%20AA&link_search_type=DSSO*&",
+   "https://msviewer.ucsf.edu/cgi-bin/mssearch.cgi?search_name=msproduct&output_type=HTML&report_title=MS-Product&version=6.5.0%20Basic&data_source=Data%20From%20File&data_filename=%2Fvar%2Flib%2Fprospector%2Fweb%2Ftemp%2FApr_11_2024%2Fzzqhcjm7xa%2FDSSOstar_rRibo%2FZ20200519-53_FTMSms2hcd.mgf&use_instrument_ion_types=1&msms_min_precursor_mass=0&instrument_name=ESI-Q-high-res&display_graph=1&msms_parent_mass_tolerance=200&msms_parent_mass_tolerance_units=ppm&fragment_masses_tolerance=30&fragment_masses_tolerance_units=ppm&msms_pk_filter=Max%20MSMS%20Pks&msms_max_peaks=100&scan_number=19752&max_charge=3&msms_precursor_charge=3&sequence=LITEDVQGK%28%2bDSSO%2a%29NC%28Carbamidomethyl%29LTNFHGMDLTR&s=1&sequence2=MLAIK%28%2bDSSO%2a%29R&s2=1&count_pos_z=Count%20Basic%20AA&link_search_type=DSSO*&",
+   "https://msviewer.ucsf.edu/cgi-bin/mssearch.cgi?search_name=msproduct&output_type=HTML&report_title=MS-Product&version=6.5.0%20Basic&data_source=Data%20From%20File&data_filename=%2Fvar%2Flib%2Fprospector%2Fweb%2Ftemp%2FApr_11_2024%2Fzzqhcjm7xa%2FDSSOstar_rRibo%2FZ20200519-53_FTMSms2hcd.mgf&use_instrument_ion_types=1&msms_min_precursor_mass=0&instrument_name=ESI-Q-high-res&display_graph=1&msms_parent_mass_tolerance=200&msms_parent_mass_tolerance_units=ppm&fragment_masses_tolerance=30&fragment_masses_tolerance_units=ppm&msms_pk_filter=Max%20MSMS%20Pks&msms_max_peaks=100&scan_number=19752&max_charge=3&msms_precursor_charge=3&sequence=LITEDVQGK%28%2bDSSO%2a%29NC%28Carbamidomethyl%29LTNFHGMDLTR&s=1&sequence2=TK%28%2bDSSO%2a%29LQNK&s2=1&s2=1&count_pos_z=Count%20Basic%20AA&link_search_type=DSSO*&",
+   "https://msviewer.ucsf.edu/cgi-bin/mssearch.cgi?search_name=msproduct&output_type=HTML&report_title=MS-Product&version=6.5.0%20Basic&data_source=Data%20From%20File&data_filename=%2Fvar%2Flib%2Fprospector%2Fweb%2Ftemp%2FApr_11_2024%2Fzzqhcjm7xa%2FDSSOstar_rRibo%2FZ20200519-53_FTMSms2hcd.mgf&use_instrument_ion_types=1&msms_min_precursor_mass=0&instrument_name=ESI-Q-high-res&display_graph=1&msms_parent_mass_tolerance=200&msms_parent_mass_tolerance_units=ppm&fragment_masses_tolerance=30&fragment_masses_tolerance_units=ppm&msms_pk_filter=Max%20MSMS%20Pks&msms_max_peaks=100&scan_number=19752&max_charge=3&msms_precursor_charge=3&sequence=LITEDVQGK%28%2BDSSO*%29NC%28Carbamidomethyl%29LTNFHGMDLTR&s=1&sequence2=ELATK%28%2BDSSO*%29LG&s2=1&count_pos_z=Count%20Basic%20AA&link_search_type=DSSO*&"
+   ),
+   peptide.1 = c("AVDIPHMDIEALKK","LITEDVQGKNCLTNFHGMDLTR","LITEDVQGKNCLTNFHGMDLTR",
+                 "LITEDVQGKNCLTNFHGMDLTR"),
+   peptide.2 = c("KPRHQEGEIFDTEK","MLAIKR","TKLQNK","ELATKLG"),
+   protein.1 = c("uL1","S3A","S3A","S3A"),
+   prot.1.url = c("https://www.uniprot.org/uniprotkb/G1TY53/entry",
+                  "https://www.uniprot.org/uniprotkb/G1SS70/entry",
+                  "https://www.uniprot.org/uniprotkb/G1SS70/entry",
+                  "https://www.uniprot.org/uniprotkb/G1SS70/entry"),
+   protein.2 = c("L6","eL42","L10","eL8"),
+   prot.2.url = c("https://www.uniprot.org/uniprotkb/G1SKF7/entry",
+                  "https://www.uniprot.org/uniprotkb/G1U344/entry",
+                  "https://www.uniprot.org/uniprotkb/B7NZQ2/entry",
+                  "https://www.uniprot.org/uniprotkb/G1STW0/entry"),
+   residue.1 = c(91,94,94,94),
+   residue.2 = c(227,86,141,317),
+   chainID.1 = c("w3","C2","C2","C2"),
+   chainID.2 = c("E3","o3","I3","G3"),
+   module.1 = c("60S Ribosome","40S Ribosome","40S Ribosome","40S Ribosome"),
+   module.2 = c("60S Ribosome","60S Ribosome","60S Ribosome","60S Ribosome")
+)
+pep.flex <- flextable(pep.assignments, col_keys=c(names(pep.assignments)[c(-2,-6,-8)]))
+pep.flex <- compose(x = pep.flex, j = "assignment", 
+                    value = as_paragraph(hyperlink_text(x = assignment, url = url))
+)
+pep.flex <- compose(x = pep.flex, j = "protein.1", 
+                    value = as_paragraph(hyperlink_text(x = protein.1, url = prot.1.url))
+)
+pep.flex <- compose(x = pep.flex, j = "protein.2", 
+                    value = as_paragraph(hyperlink_text(x = protein.2, url = prot.2.url))
+)
+
+```
+
+For this exam question we will look at some CLMS data that was obtained by
+crosslinking 80S Ribosome from Rabbit with the cleavable crosslinker
+[DSSO](https://www.thermofisher.com/order/catalog/product/A33545){target="_blank"}.
+
+We are interested in one particular MS2 HCD product ion spectrum from
+this experiment. We have identified four possible crosslinked sequences
+that match the precursor ion (m/z = **1150.8955^3+^**) and the product
+ions. Each of the four assignments links to an annotated product ion
+spectrum showing the ions that support that assignment. By clicking on
+the link in the "assignment" column, you will be able to see detailed
+information about the match between the spectrum and the sequences. Some
+useful things to consider are the calculated mono-isotopic MH of the
+precursor ion, the mass error of the product ion matches, how much of
+the sequence of each peptide is matched by product ions, how much noise
+(unmatched ions) are in the annotation, etc.
+
+DSSO is a cleavable crosslinker, which can cleave on either side of the
+sulfoxide. The ions which contain a DSSO can each produce either a thiol
+or an alkene modification. In Protein Prospector these are annotated
+with the symbols \* and #.
+
+```{r table, echo=F}
+big_border = fp_border_default(color="grey85", width = 2)
+small_border = fp_border_default(color="gray", width = 1)
+
+pep.flex <- border_inner_h(pep.flex, part="all", border = small_border )
+pep.flex <- border_inner_v(pep.flex, part="all", border = small_border )
+pep.flex <- border_outer(pep.flex, part="all", border = big_border )
+pep.flex %>%
+   bold(part = "header") %>%
+   color(part = "body", j = c("assignment", "protein.1", "protein.2"), color = "dodgerblue")
+```
+
+### Question 1:
+
+When the Orbitrap analyzer is callibrated well, it typically has a mass
+accuracy of less than 5 ppm. Compare the calculated MH^+^ of the
+putative crosslink matches to the experimental precursor ion. Are any of
+the matches within this precursor mass tolerance.
+
+### Question 2
+
+Do any of the putative assignments match the diagnostic DSSO ion pairs?
+The DSSO paper might be helpful [@kao2011b].
+
+### Question 3
+
+Look at the spectral annotation and also look underneath in the "Main
+Sequence Ions" area to see which parts of the peptide sequences are
+matched by **y-** and **b**-ions.
+
+Which of the putative crosslinks is most likely to be assigned
+correctly?
+
+### Question 4
+
+There is a reference structure for the rabbit Ribosome, PDB code:
+[6hcj](https://www.rcsb.org/structure/6HCJ){target="_blank"}
+
+The table contains the residue numbers and the PDB chain codes for
+putative crosslinks. Measure the C$\alpha$ to C$\alpha$ distances of the
+crosslink assignments. Note: In
+[ChimeraX](https://www.cgl.ucsf.edu/chimerax/){target="_blank"}, you can load the pdb
+file and use the distance command in the command line like so:
+
+    distance /w3:91@CA /E3:224@CA
+
+For assignment #1, residue 227 on Ribosome Protein L6 is not resolved in
+the pdb structure so use residue 224, the closest mapped residue, as I
+did in the example above.
+
+Are any of the crosslink assignments consistent with the expected
+distance of the DSSO crosslinker (\< 30 Å)?
+
+### Question 5
+
+What aspects of the spectral annotation were most useful in determining
+whether or not the crosslink was assigned correctly?
+
+
+### References:
