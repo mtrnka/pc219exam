@@ -12,6 +12,10 @@ bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
+# published at:
+# https://mtrnka.github.io/pc219exam/CLMS_exam.html
+
+
 knitr::opts_chunk$set(echo = TRUE)
 require(tidyverse)
 library(flextable)
@@ -27,12 +31,12 @@ pep.assignments <- tibble(
    peptide.1 = c("AVDIPHMDIEALKK","LITEDVQGKNCLTNFHGMDLTR","LITEDVQGKNCLTNFHGMDLTR",
                  "LITEDVQGKNCLTNFHGMDLTR"),
    peptide.2 = c("KPRHQEGEIFDTEK","MLAIKR","TKLQNK","ELATKLG"),
-   protein.1 = c("uL1","S3A","S3A","S3A"),
+   protein.1 = c("uL1","eS1","eS1","eS1"),
    prot.1.url = c("https://www.uniprot.org/uniprotkb/G1TY53/entry",
                   "https://www.uniprot.org/uniprotkb/G1SS70/entry",
                   "https://www.uniprot.org/uniprotkb/G1SS70/entry",
                   "https://www.uniprot.org/uniprotkb/G1SS70/entry"),
-   protein.2 = c("L6","eL42","L10","eL8"),
+   protein.2 = c("eL6","eL42","uL16","eL8"),
    prot.2.url = c("https://www.uniprot.org/uniprotkb/G1SKF7/entry",
                   "https://www.uniprot.org/uniprotkb/G1U344/entry",
                   "https://www.uniprot.org/uniprotkb/B7NZQ2/entry",
@@ -124,7 +128,7 @@ file and use the distance command in the command line like so:
 
     distance /w3:91@CA /E3:224@CA
 
-For assignment #1, residue 227 on Ribosome Protein L6 is not resolved in
+For assignment #1, residue 227 on Ribosome Protein eL6 is not resolved in
 the pdb structure so use residue 224, the closest mapped residue, as I
 did in the example above.
 
