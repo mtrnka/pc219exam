@@ -96,19 +96,19 @@ pep.flex %>%
    color(part = "body", j = c("assignment", "protein.1", "protein.2"), color = "dodgerblue")
 ```
 
-### Question 1:
+### Question 10:
 
 When the Orbitrap analyzer is callibrated well, it typically has a mass
 accuracy of less than 5 ppm. Compare the calculated MH^+^ of the
 putative crosslink matches to the experimental precursor ion. Are any of
 the matches within this precursor mass tolerance.
 
-### Question 2
+### Question 11
 
 Do any of the putative assignments match the diagnostic DSSO ion pairs?
 The DSSO paper might be helpful [@kao2011b].
 
-### Question 3
+### Question 12
 
 Look at the spectral annotation and also look underneath in the "Main
 Sequence Ions" area to see which parts of the peptide sequences are
@@ -117,7 +117,7 @@ matched by **y-** and **b**-ions.
 Which of the putative crosslinks is most likely to be assigned
 correctly?
 
-### Question 4
+### Question 13
 
 There is a reference structure for the rabbit Ribosome, PDB code:
 [6hcj](https://www.rcsb.org/structure/6HCJ){target="_blank"}
@@ -137,7 +137,7 @@ did in the example above.
 Are any of the crosslink assignments consistent with the expected
 distance of the DSSO crosslinker (\< 30 Å)?
 
-### Question 5
+### Question 14
 
 What aspects of the spectral annotation were most useful in determining
 whether or not the crosslink was assigned correctly?
